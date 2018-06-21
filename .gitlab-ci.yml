@@ -1,20 +1,20 @@
 image: 'golang:latest'
 
 stages:
-#  - test
+  - test
   - release-linux
 
-#test:linux:
-#  stage: test
-#  script:     
-#    - cd ./src
-#    - go get gopkg.in/yaml.v2
-#    - go test -v
+test:linux:
+  stage: test
+  script:     
+    - cd ./src
+    - go get gopkg.in/yaml.v2
+    - go test -v
       
 release:linux:
   stage: release-linux
-#  only: 
-#    - tags    
+  only: 
+    - tags    
   script:     
     - cd ./src
     - go get gopkg.in/yaml.v2
