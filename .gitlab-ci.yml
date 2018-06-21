@@ -24,8 +24,8 @@ release:linux:
     - go build -v
     - mv src ../ezrep
     - cd ..
-    - curl https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz
-    - tar -xf upx-3.94-amd64_linux.tar.xz
+    - curl -L -o upx.tar.xz https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz
+    - tar -xf upx.tar.xz
     - upx ezrep
     - tar -cvzf ezrep-$CI_COMMIT_TAG.tar.gz ezrep    
   artifacts:
