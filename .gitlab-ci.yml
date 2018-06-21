@@ -3,8 +3,6 @@ image: 'golang:latest'
 stages:
 #  - test
   - release-linux
-#  - build-docker
-#  - windows
 
 #test:linux:
 #  stage: test
@@ -24,13 +22,10 @@ release:linux:
     - go build -v
     - mv src ../ezrep
     - cd ..
-    - curl -L -o upx.tar.xz  https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz
-    - ls -l
-    - tar -xf upx.tar.xz upx-3.94-amd64_linux/upx
-    - ls -l
-    - cp upx-3.94-amd64_linux/upx upx
-    - ls -l
-    - upx ezrep
+#    - curl -L -o upx.tar.xz  https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz
+#    - tar -xf upx.tar.xz upx-3.94-amd64_linux/upx
+#    - cp upx-3.94-amd64_linux/upx upx
+#    - upx ezrep
     - tar -cvzf ezrep-$CI_COMMIT_TAG.tar.gz ezrep    
   artifacts:
     name: 'ezrep-$CI_COMMIT_TAG'
