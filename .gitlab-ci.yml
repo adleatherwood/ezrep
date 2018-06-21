@@ -6,12 +6,12 @@ stages:
 #  - build-docker
 #  - windows
 
-test:linux:
-  stage: test
-  script:     
-    - cd ./src
-    - go get gopkg.in/yaml.v2
-    - go test -v
+#test:linux:
+#  stage: test
+#  script:     
+#    - cd ./src
+#    - go get gopkg.in/yaml.v2
+#    - go test -v
       
 release:linux:
   stage: release-linux
