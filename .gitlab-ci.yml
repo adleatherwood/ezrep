@@ -63,7 +63,7 @@ package:develop:
     - echo $SEMVER    
     - tar -cvzf ezrep-$SEMVER-pre.tar.gz ezrep    
   artifacts:
-    name: ezrep-$SEMVER-pre
+    name: ezrep-prerelease
     paths:
       - ezrep-* 
 
@@ -84,7 +84,7 @@ package:master:
     - ./release changelog
     - ./release commit-and-tag CHANGELOG.md
   artifacts:
-    name: ezrep-$SEMVER
+    name: ezrep-release
     paths:
       - ezrep-* 
 
@@ -92,6 +92,8 @@ publish:master:
   stage: release
   only:
     - tags
+  dependencies:
+    - package:master
   script:
     - export SEMVER=$(./release next-version -p)
     - echo $SEMVER    
