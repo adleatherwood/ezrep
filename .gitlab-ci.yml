@@ -1,3 +1,5 @@
+image: 'golang:1.10'
+
 stages:
   - test
   - build
@@ -6,7 +8,6 @@ stages:
 
 test:executable:  
   stage: test   
-  image: 'golang:1.10' 
   except:
     refs:
       - master
@@ -33,7 +34,6 @@ download:release:
 
 build:executable:
   stage: build 
-  image: 'golang:1.10'
   only: 
     refs:
       - master
