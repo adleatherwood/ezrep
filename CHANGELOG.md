@@ -2,6 +2,13 @@
 
 <!--- next entry here -->
 
+## 0.1.1
+2018-06-22
+
+### Fixes
+
+- **pipeline:** Fix publishing release download (6e61113e3d58c29d4304bd6155a5e966071603b0)
+
 ## 0.1.0
 2018-06-22
 
