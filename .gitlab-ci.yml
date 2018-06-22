@@ -78,7 +78,7 @@ package:master:
     - build:executable
     - download:release
   script:
-    - export SEMVER=$(./release next-version -p)
+    - export SEMVER=$(./release next-version)
     - echo $SEMVER    
     - tar -cvzf ezrep-$SEMVER.tar.gz ezrep        
     - ./release changelog
@@ -94,8 +94,9 @@ publish:master:
     - tags
   dependencies:
     - package:master
+    - download:release
   script:
-    - export SEMVER=$(./release next-version -p)
+    - export SEMVER=$(./release next-version)
     - echo $SEMVER    
     - ./release add-download -f ezrep-$SEMVER.tar.gz -d "Linux executable"
 
