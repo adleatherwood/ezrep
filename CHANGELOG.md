@@ -2,6 +2,13 @@
 
 <!--- next entry here -->
 
+## 0.1.5
+2018-06-25
+
+### Fixes
+
+- **build:** the most hateful process known to man (4a3fcfda61426dc1a75484dfaec9af1dab231a92)
+
 ## 0.1.4
 2018-06-25
 
