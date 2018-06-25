@@ -3,14 +3,17 @@ image: 'golang:1.10'
 stages:
   - test
   - build
-  - release
+#  - release
 
 test:branch:  
   stage: test   
   except:
-    refs:
-      - master
-      - develop
+    variables:
+      - $CI_COMMIT_REF_NAME =~ "master"
+      - $CI_COMMIT_REF_NAME =~ "develop"
+#    refs:
+#      - master
+#      - develop
   script:     
     - ./build.sh 
       download-go
@@ -19,8 +22,10 @@ test:branch:
 build:develop:
   stage: build
   only: 
-    refs:
-      - develop 
+    variables:
+      - $CI_COMMIT_REF_NAME == "develop"
+#    refs:
+#      - develop 
   script:    
     - ./build.sh 
       download-semrel 
@@ -36,8 +41,10 @@ build:develop:
 build:master:
   stage: build
   only:
-    refs:
-      - master
+    variables:
+      - $CI_COMMIT_REF_NAME == "master"
+#    refs:
+#      - master
   except:
     - tags
   script:
@@ -46,19 +53,20 @@ build:master:
       download-go
       build-go
       package-release
-      tag-release    
+      tag-release
+      publish-release
   artifacts:
     name: ezrep-release
     paths:
       - ezrep-*      
 
-publish:master:
-  stage: release
-  only:
-    - tags
-  dependencies:
-     - build:master  
-  script:
-    - ./build.sh 
-      download-semrel
-      publish-release
+#publish:master:
+#  stage: release
+#  only:
+#    - tags
+#  dependencies:
+#     - build:master  
+#  script:
+#    - ./build.sh 
+#      download-semrel
+#      publish-release
