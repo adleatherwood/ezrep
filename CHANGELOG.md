@@ -2,6 +2,13 @@
 
 <!--- next entry here -->
 
+## 0.1.3
+2018-06-25
+
+### Fixes
+
+- **build:** master branch failure on upload release (d88f9c7754e148bac00afdc7d908208b337028ad)
+
 ## 0.1.2
 2018-06-25
 
