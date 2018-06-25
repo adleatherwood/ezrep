@@ -2,6 +2,14 @@
 
 <!--- next entry here -->
 
+## 0.1.2
+2018-06-25
+
+### Fixes
+
+- **build:** reorganized the build process to have fewer steps (01d64aa93fd20d300ed9ef6939fd2b6791c2b3f7)
+- **build:** reorganized the build process to have fewer steps (aaf45f7686ad5a114cca9e962acb9ce18c0dcc8f)
+
 ## 0.1.1
 2018-06-22
 
