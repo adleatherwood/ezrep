@@ -2,6 +2,13 @@
 
 <!--- next entry here -->
 
+## 0.1.4
+2018-06-25
+
+### Fixes
+
+- **build:** release feature work (3a36230efa503175457373cc44ef66a5a7d57d45)
+
 ## 0.1.3
 2018-06-25
 
