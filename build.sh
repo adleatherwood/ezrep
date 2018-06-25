@@ -39,7 +39,7 @@ function tagRelease() {
 }
 
 function publishRelease() {
-    ./release add-download -f ezrep-$SEMVER.tar.gz -d "Linux executable"
+    ./release --ci-commit-tag v$SEMVER add-download -f ezrep-$SEMVER.tar.gz -d "Linux executable"
 }
 
 for arg in "$@"
