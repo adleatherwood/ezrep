@@ -2,6 +2,35 @@
 
 <!--- next entry here -->
 
+## 0.1.5
+2018-06-25
+
+### Fixes
+
+- **build:** the most hateful process known to man (4a3fcfda61426dc1a75484dfaec9af1dab231a92)
+
+## 0.1.4
+2018-06-25
+
+### Fixes
+
+- **build:** release feature work (3a36230efa503175457373cc44ef66a5a7d57d45)
+
+## 0.1.3
+2018-06-25
+
+### Fixes
+
+- **build:** master branch failure on upload release (d88f9c7754e148bac00afdc7d908208b337028ad)
+
+## 0.1.2
+2018-06-25
+
+### Fixes
+
+- **build:** reorganized the build process to have fewer steps (01d64aa93fd20d300ed9ef6939fd2b6791c2b3f7)
+- **build:** reorganized the build process to have fewer steps (aaf45f7686ad5a114cca9e962acb9ce18c0dcc8f)
+
 ## 0.1.1
 2018-06-22
 

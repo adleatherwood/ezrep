@@ -1,4 +1,3 @@
-
 function downloadSemrel() {
     curl -L -o release https://gitlab.com/juhani/go-semrel-gitlab/uploads/222a87259f6162c1a59c8586226f61cf/release
     chmod +x release    
@@ -39,7 +38,7 @@ function tagRelease() {
 }
 
 function publishRelease() {
-    ./release add-download -f ezrep-$SEMVER.tar.gz -d "Linux executable"
+    ./release --commit-tag v$SEMVER add-download -f ezrep-$SEMVER.tar.gz -d "Linux executable"
 }
 
 for arg in "$@"

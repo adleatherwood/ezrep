@@ -8,9 +8,8 @@ stages:
 test:branch:  
   stage: test   
   except:
-    refs:
-      - master
-      - develop
+    - /master/
+    - /develop/
   script:     
     - ./build.sh 
       download-go
@@ -19,8 +18,7 @@ test:branch:
 build:develop:
   stage: build
   only: 
-    refs:
-      - develop 
+    - /develop/
   script:    
     - ./build.sh 
       download-semrel 
@@ -34,10 +32,9 @@ build:develop:
       - ezrep-* 
 
 build:master:
-  stage: build
+  stage: release
   only:
-    refs:
-      - master
+    - /master/
   except:
     - tags
   script:
@@ -46,19 +43,9 @@ build:master:
       download-go
       build-go
       package-release
-      tag-release    
+      tag-release
+      publish-release
   artifacts:
     name: ezrep-release
     paths:
       - ezrep-*      
-
-publish:master:
-  stage: release
-  only:
-    - tags
-  dependencies:
-     - build:master  
-  script:
-    - ./build.sh 
-      download-semrel
-      publish-release
