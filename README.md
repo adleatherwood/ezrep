@@ -26,29 +26,22 @@
 Initialize a project with a default configuration file ->
 
 ```shell
-  ezrep -i
-  ezrep -init
-  ezrep -i -c myconfig.yml
-  ezrep -init -config myconfig.yml
+  ezrep init
+  ezrep init -c myconfig.yml
 ```
 
 Export a variable to stdout ->
 
 ```shell
-  ezrep -e Version $VAR1 $VAR2 ...
-  ezrep -export Version $VAR1 $VAR2 ...
-  ezrep -e Version -c myconfig.yaml $VAR1 $VAR2 ...
-  ezrep -export Version -config myconfig.yaml $VAR1 $VAR2 ...
+  ezrep export -v Version $VAR1 $VAR2 ...
+  ezrep export -v Version -c myconfig.yaml $VAR1 $VAR2 ...
 ```
 
-Execute changes to files ->
+Process changes to files ->
 
 ```shell
-  exrep $VAR1 $VAR2 ...
-  exrep -p $VAR1 $VAR2 ...
-  exrep -preview $VAR1 $VAR2 ...
-  exrep -c myconfig.yml -r ./src $VAR1 $VAR2 ...
-  exrep -config myconfig.yml -root ./src $VAR1 $VAR2 ...
+  exrep process $VAR1 $VAR2 ...
+  exrep process -p -c myconfig.yml -r ./src $VAR1 $VAR2 ...
 ```
 
 ## A practical application
@@ -59,7 +52,7 @@ files, you could do the following:
 ** Create an ezrep.yaml file **
 
 ```shell
-exrep -init
+ezrep init
 ```
 
 ** Modify the contents **
