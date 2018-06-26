@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 )
 
@@ -23,13 +22,17 @@ func main() {
 }
 
 func mainInit(args initArgs) {
+	console := defaultConsoleIo()
 	file := defaultFileIo()
 	yaml := basicYAML()
 	config := []byte(yaml)
 
-	// bug: do not overwrite existing file
-	fmt.Println(args.configFile)
-	file.writeBytes(args.configFile, config)
+	if _, err := os.Stat(args.configFile); err == nil {
+		console.writeLn("File '%s' already exists.  No file written.", args.configFile)
+	} else {
+		file.writeBytes(args.configFile, config)
+		console.writeLn("File '%s' written.", args.configFile)
+	}
 }
 
 func mainExport(args exportArgs) {
