@@ -12,17 +12,17 @@ func main() {
 
 	switch parameters.runMode {
 	case runInit:
-		doInit(parameters.initArgs)
+		mainInit(parameters.initArgs)
 	case runExport:
-		doExport(parameters.exportArgs)
+		mainExport(parameters.exportArgs)
 	case runExecute:
-		doExecute(parameters.executeArgs)
+		mainExecute(parameters.executeArgs)
 	case runHelp:
-		doHelp(undefined)
+		mainHelp(undefined)
 	}
 }
 
-func doInit(args initArgs) {
+func mainInit(args initArgs) {
 	file := defaultFileIo()
 	yaml := basicYAML()
 	config := []byte(yaml)
@@ -32,16 +32,17 @@ func doInit(args initArgs) {
 	file.writeBytes(args.configFile, config)
 }
 
-func doExport(args exportArgs) {
+func mainExport(args exportArgs) {
 	console := defaultConsoleIo()
 	file := defaultFileIo()
 	config := loadConfig(file, args.configFile)
-	variables := config.Definitions.execute(args.inputs)
+	variableMap := config.Variables.execute(args.inputs)
+	variable := variableMap[args.variable].value
 
-	console.write(variables[args.variable].value)
+	console.write(variable)
 }
 
-func doExecute(args executeArgs) {
+func mainExecute(args executeArgs) {
 	var system systemIo
 
 	if args.isPreview {
@@ -51,21 +52,31 @@ func doExecute(args executeArgs) {
 	}
 
 	config := loadConfig(system.file, args.configFile)
-	filenames := system.directory.listFiles(args.rootPath)
 
-	variables := config.Definitions.execute(args.inputs)
+	variables, updates := doExecute(system.directory, system.file, config, args.rootPath, args.inputs)
 	variables.print(system.console)
 
 	if len(variables) == 0 {
 		system.console.writeLn("No variables found to process.  Exiting ezrep...")
-		return
+	} else {
+		updates.print(system.console)
 	}
-
-	updates := config.Applications.execute(system.file, variables, filenames)
-	updates.print(system.console)
 }
 
-func doHelp(args *undefinedArgs) {
+func doExecute(directory directoryIo, file fileIo, config config, root string, inputs []string) (variableMap, updates) {
+	filenames := directory.listFiles(root)
+	variables := config.Variables.execute(inputs)
+
+	var updates []update
+
+	if len(variables) > 0 {
+		updates = config.Tasks.execute(file, variables, filenames)
+	}
+
+	return variables, updates
+}
+
+func mainHelp(args *undefinedArgs) {
 	console := defaultConsoleIo()
 
 	console.writeLn("")

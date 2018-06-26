@@ -5,14 +5,14 @@ import (
 	"regexp"
 )
 
-type application struct {
+type taskDef struct {
 	Variable string `yaml:"variable"`
 	Filemask string `yaml:"filemask"`
 	Find     string `yaml:"find"`
 	Replace  string `yaml:"replace"`
 }
 
-type applications []application
+type taskDefs []taskDef
 
 type task struct {
 	variable variable
@@ -30,19 +30,19 @@ type update struct {
 
 type updates []update
 
-func (a application) toTask(variable variable) task {
+func (td taskDef) toTask(variable variable) task {
 	return task{
 		variable: variable,
-		filemask: regexp.MustCompile(a.Filemask),
-		find:     regexp.MustCompile(a.Find),
-		replace:  a.Replace,
+		filemask: regexp.MustCompile(td.Filemask),
+		find:     regexp.MustCompile(td.Find),
+		replace:  td.Replace,
 	}
 }
 
-func (as applications) toTasks(vars variableMap) (result tasks) {
-	for _, a := range as {
-		variable := vars[a.Variable]
-		result = append(result, a.toTask(variable))
+func (tds taskDefs) toTasks(vars variableMap) (result tasks) {
+	for _, td := range tds {
+		variable := vars[td.Variable]
+		result = append(result, td.toTask(variable))
 	}
 	return
 }
@@ -70,8 +70,8 @@ func (ts tasks) execute(file fileIo, filenames []string) (result updates) {
 	return
 }
 
-func (as applications) execute(file fileIo, variables variableMap, filenames []string) updates {
-	tasks := as.toTasks(variables)
+func (tds taskDefs) execute(file fileIo, variables variableMap, filenames []string) updates {
+	tasks := tds.toTasks(variables)
 	return tasks.execute(file, filenames)
 }
 
