@@ -66,23 +66,23 @@ exrep -init
 ** Modify the contents **
 
 ```yaml
-definitions: 
-  - name  : Version
-    find  : ([vV]ersion\(")([\d\.]+)("\))	
-    group : 2		  
-applications: 
-  - variable : Version
-    filemask : AssemblyInfo\.cs
-    find     : ([vV]ersion\(")([\d\.]+)("\))
-    replace  : ${1}%s${3}
-  - variable : Version
-    filemask : \.[cf]sproj
-    find     : (<[vV]ersion>)([\d\.]+)(<\/[vV]ersion>)
-    replace  : ${1}%s${3}
+variables: 
+- name  : Version
+  find  : ([vV]ersion=)([\d\.]+)(.*) 
+  group : 2         
+tasks: 
+- variable : Version
+  filemask : AssemblyInfo\.cs
+  find     : ([vV]ersion\(")([\d\.]+)("\))
+  replace  : ${1}%s${3}
+- variable : Version
+  filemask : \.[cf]sproj
+  find     : (<[vV]ersion>)([\d\.]+)(<\/[vV]ersion>)
+  replace  : ${1}%s${3}
 ```
 
 ** Execute the application **
 
 ```
-ezrep "Version(1.2.3.4)"
+ezrep "Version=1.2.3.4"
 ```

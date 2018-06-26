@@ -5,8 +5,8 @@ import (
 )
 
 type config struct {
-	Definitions  definitions  `yaml:"definitions"`
-	Applications applications `yaml:"applications"`
+	Variables variableDefs `yaml:"variables"`
+	Tasks     taskDefs     `yaml:"tasks"`
 }
 
 func deserializeYAML(content []byte) (result config) {
@@ -25,11 +25,11 @@ func loadConfig(file fileIo, filename string) config {
 
 func basicYAML() string {
 	json := `
-definitions: 
+variable: 
   - name  : Version
 	find  : (^|[^\.\d])(\d+\.\d+\.\d+\.?\d*)([^\.\d]|$)
     group : 2		
-applications: 
+task: 
   - variable : Version
     filemask : .*
     find     : (^|[^\.\d])(\d+\.\d+\.\d+\.?\d*)([^\.\d]|$)
