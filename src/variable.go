@@ -72,6 +72,6 @@ func (vds variableDefs) execute(contents []string) variableMap {
 
 func (vm variableMap) print(console consoleIo) {
 	for _, v := range vm {
-		console.writeLn("Found Variable -> %s", v.name, v.value)
+		console.writeLn("Found Variable -> %s = %s", v.name, v.value)
 	}
 }

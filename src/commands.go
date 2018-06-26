@@ -5,60 +5,49 @@ import (
 )
 
 const (
-	initUsage    = "Use this command to create a basic yaml configuration file."
-	previewUsage = "Use this flag to run ezrep and display all of the changes that would have been made."
-	configUsage  = "The alternate full file name to the ezrep.json file to use during execution."
-	rootUsage    = "The path to the directory in which to search and make changes."
-	exportUsage  = "Use this flag to parse the input arguments and print out the value of the desired variable."
+	previewUsage  = "Use this flag to run ezrep and display all of the changes that would have been made."
+	configUsage   = "The alternate full file name to the ezrep.json file to use during execution."
+	rootUsage     = "The path to the directory in which to search and make changes."
+	variableUsage = "The name of the variable from the config to searh for and return."
 )
 
 const (
-	initDefault    = false
-	previewDefault = false
-	configDefault  = "ezrep.yaml"
-	rootDefault    = "./"
-	exportDefault  = ""
+	initDefault     = false
+	previewDefault  = false
+	configDefault   = "ezrep.yaml"
+	rootDefault     = "./"
+	variableDefault = ""
 )
 
 type undefinedArgs struct {
-	isInit       bool
-	isPreview    bool
-	configFile   string
-	rootPath     string
-	exportValue  string
-	initFlags    *flag.FlagSet
-	executeFlags *flag.FlagSet
-	exportFlags  *flag.FlagSet
+	isInit         bool
+	isPreview      bool
+	configFile     string
+	rootPath       string
+	variabletValue string
+	initFlags      *flag.FlagSet
+	exportFlags    *flag.FlagSet
+	processFlags   *flag.FlagSet
 }
 
 func newUndefinedArgs() *undefinedArgs {
 	undefined := undefinedArgs{
-		isInit:       initDefault,
-		isPreview:    previewDefault,
-		configFile:   configDefault,
-		rootPath:     rootDefault,
-		exportValue:  exportDefault,
-		initFlags:    flag.NewFlagSet("init", flag.PanicOnError),
-		executeFlags: flag.NewFlagSet("execute", flag.PanicOnError),
-		exportFlags:  flag.NewFlagSet("export", flag.PanicOnError),
+		isInit:         initDefault,
+		isPreview:      previewDefault,
+		configFile:     configDefault,
+		rootPath:       rootDefault,
+		variabletValue: variableDefault,
+		initFlags:      flag.NewFlagSet("init", flag.PanicOnError),
+		exportFlags:    flag.NewFlagSet("export", flag.PanicOnError),
+		processFlags:   flag.NewFlagSet("execute", flag.PanicOnError),
 	}
 
-	undefined.initFlags.BoolVar(&undefined.isInit, "init", initDefault, initUsage)
-	undefined.initFlags.BoolVar(&undefined.isInit, "i", initDefault, "init (shorthand)")
-	undefined.initFlags.StringVar(&undefined.configFile, "config", configDefault, configUsage)
-	undefined.initFlags.StringVar(&undefined.configFile, "c", configDefault, "config (shorthand)")
-
-	undefined.executeFlags.BoolVar(&undefined.isPreview, "preview", previewDefault, previewUsage)
-	undefined.executeFlags.BoolVar(&undefined.isPreview, "p", previewDefault, "preview (shorthand)")
-	undefined.executeFlags.StringVar(&undefined.rootPath, "root", rootDefault, rootUsage)
-	undefined.executeFlags.StringVar(&undefined.rootPath, "r", rootDefault, "root (shorthand)")
-	undefined.executeFlags.StringVar(&undefined.configFile, "config", configDefault, configUsage)
-	undefined.executeFlags.StringVar(&undefined.configFile, "c", configDefault, "config (shorthand)")
-
-	undefined.exportFlags.StringVar(&undefined.exportValue, "export", exportDefault, exportUsage)
-	undefined.exportFlags.StringVar(&undefined.exportValue, "e", exportDefault, "export (shorthand)")
-	undefined.exportFlags.StringVar(&undefined.configFile, "config", configDefault, configUsage)
-	undefined.exportFlags.StringVar(&undefined.configFile, "c", configDefault, "config (shorthand)")
+	undefined.initFlags.StringVar(&undefined.configFile, "c", configDefault, configUsage)
+	undefined.exportFlags.StringVar(&undefined.configFile, "c", configDefault, configUsage)
+	undefined.exportFlags.StringVar(&undefined.variabletValue, "v", variableDefault, variableUsage)
+	undefined.processFlags.StringVar(&undefined.configFile, "c", configDefault, configUsage)
+	undefined.processFlags.StringVar(&undefined.rootPath, "r", rootDefault, rootUsage)
+	undefined.processFlags.BoolVar(&undefined.isPreview, "p", previewDefault, previewUsage)
 
 	return &undefined
 }
@@ -73,7 +62,7 @@ type exportArgs struct {
 	inputs     []string
 }
 
-type executeArgs struct {
+type processArgs struct {
 	isPreview  bool
 	configFile string
 	rootPath   string
@@ -86,14 +75,14 @@ const (
 	runHelp    runMode = iota
 	runInit    runMode = iota
 	runExport  runMode = iota
-	runExecute runMode = iota
+	runProcess runMode = iota
 )
 
 type parameters struct {
 	runMode     runMode
 	initArgs    initArgs
 	exportArgs  exportArgs
-	executeArgs executeArgs
+	processArgs processArgs
 }
 
 func parseParameters(undefined *undefinedArgs, osArgs []string) parameters {
@@ -106,8 +95,8 @@ func parseParameters(undefined *undefinedArgs, osArgs []string) parameters {
 		return parameters{
 			runMode: runHelp,
 		}
-	case osArgs[1] == "-i" || osArgs[1] == "-init":
-		undefined.initFlags.Parse(osArgs[1:])
+	case osArgs[1] == "init":
+		undefined.initFlags.Parse(osArgs[2:])
 		undefined.initFlags.VisitAll(debug)
 		return parameters{
 			runMode: runInit,
@@ -115,28 +104,32 @@ func parseParameters(undefined *undefinedArgs, osArgs []string) parameters {
 				configFile: undefined.configFile,
 			},
 		}
-	case osArgs[1] == "-e" || osArgs[1] == "-export":
-		undefined.exportFlags.Parse(osArgs[1:])
+	case osArgs[1] == "export":
+		undefined.exportFlags.Parse(osArgs[2:])
 		undefined.exportFlags.VisitAll(debug)
 		return parameters{
 			runMode: runExport,
 			exportArgs: exportArgs{
 				configFile: undefined.configFile,
-				variable:   undefined.exportValue,
+				variable:   undefined.variabletValue,
 				inputs:     undefined.exportFlags.Args(),
 			},
 		}
-	default:
-		undefined.executeFlags.Parse(osArgs[1:])
-		undefined.executeFlags.VisitAll(debug)
+	case osArgs[1] == "process":
+		undefined.processFlags.Parse(osArgs[2:])
+		undefined.processFlags.VisitAll(debug)
 		return parameters{
-			runMode: runExecute,
-			executeArgs: executeArgs{
+			runMode: runProcess,
+			processArgs: processArgs{
 				isPreview:  undefined.isPreview,
 				configFile: undefined.configFile,
 				rootPath:   undefined.rootPath,
-				inputs:     undefined.executeFlags.Args(),
+				inputs:     undefined.processFlags.Args(),
 			},
+		}
+	default:
+		return parameters{
+			runMode: runHelp,
 		}
 	}
 }

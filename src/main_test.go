@@ -49,7 +49,7 @@ tasks:
 
 	inputs := []string{"Version=1.2.3.4"}
 
-	doExecute(
+	doProcess(
 		files.toDirectoryIo(),
 		files.toFileIo(),
 		toConfig(config),
