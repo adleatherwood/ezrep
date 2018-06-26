@@ -2,6 +2,27 @@
 
 <!--- next entry here -->
 
+## 0.2.0
+2018-06-26
+
+### Breaking changes
+
+#### **yaml:** altered yaml element to be more intuitive and match the code (316d1bbf138f5601dfe4814918f0d030c7967635)
+
+yaml elements "definitions" & " "applications" have been changed to "variables" and "tasks" respectively.
+
+See merge request adleatherwood/ezrep!14
+
+### Features
+
+- **help:** added documentation to the project (992f13799c9828e920be5e4759485bfb33e0f6cb)
+
+### Fixes
+
+- **yaml:** altered yaml element to be more intuitive and match the code (4f268ce3f4675a73167ad118ef4f37b1ff54c932)
+- **command line:** altered command line parameters to be more consistent (7992c19ba12977459c3e87bbdbb383b4ca6d7c84)
+- **init:** fixed issue with init overwriting existing configurations (3150246df873120b087879dc1c9f206a4db5d5cf)
+
 ## 0.1.5
 2018-06-25
 
