@@ -1,26 +1,25 @@
 # EZREP 
 
-## Usage of init:
+## Options for init:
 
-| Command     | Description                                                                                          |
-| ----------- | ---------------------------------------------------------------------------------------------------- |
-| -c, -config | The alternate full file name to the ezrep.json file to use  during execution. (default "ezrep.yaml") |
-| -i, -init   | Use this command to create a basic yaml configuration file.                                          |
+| Command | Usage    | Description                                                                                          |
+| ------- | -------- | ---------------------------------------------------------------------------------------------------- |
+| -c      | optional | The alternate full file name to the ezrep.json file to use  during execution. (default "ezrep.yaml") |
 
-## Usage of execute:
+## Options for export:
 
-| Command      | Description                                                                                         |
-| ------------ | --------------------------------------------------------------------------------------------------- |
-| -c, -config  | The alternate full file name to the ezrep.json file to use during execution. (default "ezrep.yaml") |
-| -p, -preview | Use this flag to run ezrep and display all of the changes that would have been made.                |
-| -r, -root    | The path to the directory in which to search and make changes. (default "./")                       |
+| Command | Usage    | Description                                                                                         |
+| ------- | -------- | --------------------------------------------------------------------------------------------------- |
+| -c      | optional | The alternate full file name to the ezrep.json file to use during execution. (default "ezrep.yaml") |
+| -v      | required | The name of the variable from the config to searh for and return.                                   |
 
-## Usage of export:
+## Options for process:
 
-| Command     | Description                                                                                         |
-| ----------- | --------------------------------------------------------------------------------------------------- |
-| -c, -config | The alternate full file name to the ezrep.json file to use during execution. (default "ezrep.yaml") |
-| -e, -export | Use this flag to parse the input arguments and print out the value of the desired variable.         |
+| Command | Usage    | Description                                                                                         |
+| ------- | -------- | --------------------------------------------------------------------------------------------------- |
+| -c      | optional | The alternate full file name to the ezrep.json file to use during execution. (default "ezrep.yaml") |
+| -p      | optional | Use this flag to run ezrep and display all of the changes that would have been made.                |
+| -r      | optional | The path to the directory in which to search and make changes. (default "./")                       |
 
 ## Examples:
 

@@ -25,16 +25,15 @@ func loadConfig(file fileIo, filename string) config {
 
 func basicYAML() string {
 	json := `
-variable: 
-  - name  : Version
-	find  : (^|[^\.\d])(\d+\.\d+\.\d+\.?\d*)([^\.\d]|$)
-    group : 2		
-task: 
-  - variable : Version
-    filemask : .*
-    find     : (^|[^\.\d])(\d+\.\d+\.\d+\.?\d*)([^\.\d]|$)
-    replace  : ${1}%s${3}
+variables: 
+  - name: Version
+    find: ([^\.\d]|^)(\d+\.\d+\.\d+\.?\d*)([^\.\d]|$)
+    group: 2		
+tasks: 
+  - variable: Version
+    filemask: \.xyz
+    find: (^|[^\.\d])(\d+\.\d+\.\d+\.?\d*)([^\.\d]|$)
+    replace: ${1}%s${3}
 `
-
 	return json
 }
