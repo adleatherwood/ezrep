@@ -4,21 +4,21 @@ import (
 	"regexp"
 )
 
-type definition struct {
+type variableDef struct {
 	Name  string `yaml:"name"`
 	Find  string `yaml:"find"`
 	Group int    `yaml:"group"`
 }
 
-type definitions []definition
+type variableDefs []variableDef
 
-type expression struct {
+type variableExp struct {
 	name  string
 	find  *regexp.Regexp
 	group int
 }
 
-type expressions []expression
+type variableExps []variableExp
 
 type variable struct {
 	name  string
@@ -28,17 +28,17 @@ type variable struct {
 type variables []variable
 type variableMap map[string]variable
 
-func (d definition) toExpression() expression {
-	return expression{
-		name:  d.Name,
-		find:  regexp.MustCompile(d.Find),
-		group: d.Group,
+func (vd variableDef) toExpression() variableExp {
+	return variableExp{
+		name:  vd.Name,
+		find:  regexp.MustCompile(vd.Find),
+		group: vd.Group,
 	}
 }
 
-func (ds definitions) toExpressions() (result expressions) {
-	for _, d := range ds {
-		result = append(result, d.toExpression())
+func (vds variableDefs) toExpressions() (result variableExps) {
+	for _, vd := range vds {
+		result = append(result, vd.toExpression())
 	}
 	return
 }
@@ -51,27 +51,27 @@ func (vs variables) toMap() (result variableMap) {
 	return
 }
 
-func (es expressions) execute(contents []string) (result variables) {
+func (ves variableExps) execute(contents []string) (result variables) {
 	for _, c := range contents {
-		for _, e := range es {
+		for _, ve := range ves {
 			b := []byte(c)
-			if e.find.Match(b) {
-				value := e.find.FindStringSubmatch(c)[e.group]
-				result = append(result, variable{e.name, value})
+			if ve.find.Match(b) {
+				value := ve.find.FindStringSubmatch(c)[ve.group]
+				result = append(result, variable{ve.name, value})
 			}
 		}
 	}
 	return
 }
 
-func (ds definitions) execute(contents []string) variableMap {
-	es := ds.toExpressions()
-	vs := es.execute(contents)
+func (vds variableDefs) execute(contents []string) variableMap {
+	ves := vds.toExpressions()
+	vs := ves.execute(contents)
 	return vs.toMap()
 }
 
 func (vm variableMap) print(console consoleIo) {
 	for _, v := range vm {
-		console.writeLn("Found Variable -> %s", v.name, v.value)
+		console.writeLn("Found Variable -> %s = %s", v.name, v.value)
 	}
 }
