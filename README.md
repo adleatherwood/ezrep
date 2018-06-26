@@ -76,5 +76,5 @@ tasks:
 ** Execute the application **
 
 ```
-ezrep "Version=1.2.3.4"
+ezrep process "Version=1.2.3.4"
 ```
