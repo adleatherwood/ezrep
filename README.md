@@ -1,5 +1,7 @@
 # EZREP 
 
+[![pipeline status](https://gitlab.com/adleatherwood/ezrep/badges/develop/pipeline.svg)](https://gitlab.com/adleatherwood/ezrep/commits/develop)
+
 ## Options for init:
 
 | Command | Usage    | Description                                                                                          |
