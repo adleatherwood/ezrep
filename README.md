@@ -80,3 +80,5 @@ tasks:
 ```
 ezrep process "Version=1.2.3.4"
 ```
+
+[Icon Source](http://www.iconarchive.com/show/minimal-fruit-icons-by-alex-t.html)
