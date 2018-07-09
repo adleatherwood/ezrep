@@ -1,3 +1,6 @@
+!#/bin/bash
+set -e
+
 function downloadSemrel() {
     curl -L -o release https://gitlab.com/juhani/go-semrel-gitlab/uploads/222a87259f6162c1a59c8586226f61cf/release
     chmod +x release    
@@ -54,8 +57,4 @@ do
         "publish-release") publishRelease ;;
         *) echo "Command: '$arg' not understood!"; exit 1
     esac
-
-    if [ $? -ne 0 ] ; then
-        exit 1
-    fi
 done
